@@ -1,3 +1,4 @@
+-- Join all file to make the file for Tableau
 Select 
 		cus.customer_id,
 		ord.order_id,
