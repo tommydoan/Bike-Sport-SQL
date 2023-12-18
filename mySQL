@@ -1,0 +1,38 @@
+Select 
+		cus.customer_id,
+		ord.order_id,
+		CONCAT(cus.first_name,' ',cus.last_name) AS customer_name,
+	  cus.state, 
+	  ord.order_date,
+	  Sum(item.quantity) as total_quantity,
+	  Sum(item.list_price) as Total_listprice,
+	  Sum(item.quantity * item.list_price) as revenue,
+	  pro.product_id,
+	  pro.product_name, 
+	  cat.category_name,
+	  CONCAT(sta.first_name,' ',sta.last_name) as staff_name_serve,
+	  sto.store_name, sto.store_id, bra.brand_name
+From [Bike Stores].[sales].[customers] cus
+Join [Bike Stores].[sales].[orders] ord
+On cus.customer_id = ord.customer_id
+join [Bike Stores].[sales].[order_items] item
+on     ord.order_id = item.order_id
+join [Bike Stores].[production].[products] pro
+on pro.product_id = item.product_id
+join [Bike Stores].[production].[categories] cat
+on cat.category_id = pro.category_id
+join [Bike Stores].[sales].[staffs] sta
+on sta.staff_id = ord.staff_id
+join [Bike Stores].[sales].[stores] sto
+on sto.store_id = sta.store_id 
+join [Bike Stores].[production].[brands] bra
+on bra.brand_id = pro.brand_id
+Group by 
+	cus.customer_id, ord.order_id,
+	CONCAT(cus.first_name,' ',cus.last_name),
+	  cus.state, pro.product_id,
+	  ord.order_date,
+	  pro.product_name, 
+	  cat.category_name,
+	  CONCAT(sta.first_name,' ',sta.last_name) ,
+	  sto.store_name, sto.store_id, bra.brand_name
